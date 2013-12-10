@@ -3,5 +3,8 @@
 *.ko
 *.a
 *.lib
+*.bin 
+*.elf 
+*.hex
 
 tags
