@@ -106,17 +106,12 @@ void USART_puts(USART_TypeDef* USARTx, volatile char *s){
 		// wait until data register is empty
 		while( !(USARTx->SR & 0x00000040) ); 
 
-        GPIOD->BSRRL = 0x8000;
-		
         USART_SendData(USARTx, *s);
-
-		Delay(3000000L);
-
-        GPIOD->BSRRH = 0x8000;
-
 		*s++;
 	}
 }
+
+
 
 int main()
 {
@@ -124,32 +119,21 @@ int main()
     init_led();
     init_USART();
 
+    USART_puts( USART2, "Init complete! Hello World!\r\n" );
+
     while ( 1 ) {  
-        USART_puts( USART2, "Init complete! Hello World!\r\n" );
+        ;
     }
 }
 
 
 
-// this is the interrupt request handler (IRQ) for ALL USART1 interrupts
-void USART1_IRQHandler(void){
+void USART2_IRQHandler(void){
 	
-	// check if the USART1 receive interrupt flag was set
+	// check if the USART2 receive interrupt flag was set
 	if( USART_GetITStatus(USART2, USART_IT_RXNE) ){
-		
-		static uint8_t cnt = 0; // this counter is used to determine the string length
-		char t = USART2->DR; // the character from the USART2 data register is saved in t
-		
-		/* check if the received character is not the LF character (used to determine end of string) 
-		 * or the if the maximum string length has been been reached 
-		 */
-		if( (t != '\n') && (cnt < MAX_STRLEN) ){ 
-			received_string[cnt] = t;
-			cnt++;
-		}
-		else{ // otherwise reset the character counter and print the received string
-			cnt = 0;
-			USART_puts(USART2, received_string);
-		}
+
+        USART_SendData( USART2, USART2->DR );
+
 	}
 }
