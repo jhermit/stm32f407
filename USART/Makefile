@@ -24,7 +24,7 @@ STM32_INCLUDES = -I./Utilities/STM32F4-Discovery \
 	-I./Libraries/STM32_USB_Device_Library/Core/inc/ \
 	-I./Libraries/STM32_USB_OTG_Driver/inc/
 
-OPTIMIZE       = -O0
+OPTIMIZE       = -O0 -g
 
 CFLAGS	= $(MCFLAGS)  $(OPTIMIZE)  $(DEFS) -I./ -I./ $(STM32_INCLUDES)  -Wl,-T,stm32_flash.ld
 #-mapcs-float use float regs. small increase in code size

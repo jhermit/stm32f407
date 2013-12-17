@@ -119,10 +119,8 @@ int main()
     init_led();
     init_USART();
 
-    USART_puts( USART2, "Init complete! Hello World!\r\n" );
-
     while ( 1 ) {  
-        ;
+        USART_puts( USART2, "Init complete! Hello World!\r\n" );
     }
 }
 
@@ -133,6 +131,7 @@ void USART2_IRQHandler(void){
 	// check if the USART2 receive interrupt flag was set
 	if( USART_GetITStatus(USART2, USART_IT_RXNE) ){
 
+        // send back 
         USART_SendData( USART2, USART2->DR );
 
 	}
