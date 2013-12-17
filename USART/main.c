@@ -119,8 +119,9 @@ int main()
     init_led();
     init_USART();
 
+    USART_puts( USART2, "Init complete! Hello World!\r\n" );
     while ( 1 ) {  
-        USART_puts( USART2, "Init complete! Hello World!\r\n" );
+        ;
     }
 }
 
